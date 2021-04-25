@@ -1,3 +1,12 @@
+@media (min-width: 480px) {
+  header {
+    display: flex;
+    flex-direction: column;
+    background-color: #808080;
+    color: white;
+    padding: 20px;
+  }
+}
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -5,4 +14,210 @@ body {
 
 a {
   color: #00B7FF;
+}
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+}
+@media (min-width: 1340px) {
+
+  .tagging {
+    display: block;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: start;
+    width: 15%;
+    margin:15px;
+  }
+
+  #tag-form input {
+    display: block;
+    flex-direction: column;
+    justify-content: start;
+    margin: 4px;
+
+  }
+
+  #tag-form label {
+    font-weight: bold;
+    margin: 4px;
+  }
+
+  .button {
+    display: flex;
+    margin-top: 5px;
+  }
+
+  .discovery {
+    display: block;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: start;
+    width:75%;
+    margin:15px;
+  }
+
+  .mapresults{
+    display: inline-flex;
+    justify-content: space-between;
+  }
+
+  .taglist {
+    display: flex;
+    margin: 7px;
+
+  }
+
+  .taglist li{
+    display: flex;
+    color:white;
+    background-color:#00B7FF;
+    line-height:30px;
+    padding-right:45px;
+    margin-bottom:7px;
+  }
+
+  .tagmap {
+    display: flex;
+    flex-direction: column;
+    margin:20px;
+  }
+}
+
+@media (max-width: 1340px) {
+  .tagging {
+    width: 20%;
+    margin:15px;
+  }
+
+  #tag-form input {
+    display: block;
+    margin: 4px;
+
+  }
+
+  #tag-form label {
+    font-weight: bold;
+    margin: 4px;
+  }
+
+  .button {
+    display: flex;
+    margin-top: 5px;
+  }
+
+  .discovery {
+    display: block;
+    width:70%;
+    margin:15px;
+  }
+  .mapresults{
+    display: inline-flex;
+    justify-content: space-evenly;
+    margin-left: 5px;
+  }
+
+  .taglist li{
+    display: flex;
+    color:white;
+    background-color:#00B7FF;
+    line-height:30px;
+    padding-right:45px;
+    margin-bottom:7px;
+    margin-top: 5px;
+  }
+
+  .tagmap {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: 20px;
+  }
+}
+
+@media (max-width: 1125px){
+
+  .tagmap {
+    width: 45%;
+  }
+}
+
+@media (max-width: 1050px) {
+
+  .discovery {
+    display: block;
+    width:auto;
+    margin-top:15px;
+    margin-left: 70px;
+  }
+  .taglist li{
+    margin-left: -40px;
+  }
+  .mapresults{
+    display: block;
+  }
+  .tagmap{
+    width: auto;
+  }
+
+}
+
+@media (max-width: 880px) {
+
+  .discovery {
+    display: block;
+    width:60%;
+    margin-top:15px;
+    margin-left: 70px;
+  }
+  .taglist li{
+    margin-left: -40px;
+  }
+}
+
+@media (max-width: 770px) {
+
+  .discovery {
+    display: block;
+    width:55%;
+    margin-top:15px;
+    margin-left: 100px;
+  }
+  .taglist li{
+    margin-left: -40px;
+  }
+}
+
+@media (max-width: 712px){
+  main {
+    display: flex;
+  }
+
+  .tagging{
+    width: 80%;
+  }
+
+  .discovery{
+    margin-left: 20px;
+    width: 80%;
+  }
+
+  .taglist li{
+    margin-left: -40px;
+  }
+  .tagmap{
+    width: 120%;
+    margin-left: -10px;
+  }
+  
+}
+
+@media (min-width: 480px){
+  footer {
+    background-color: #808080;
+    color: white;
+    padding: 7px;
+
+  }
 }
