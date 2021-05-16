@@ -82,7 +82,7 @@ var gtaLocator = (function GtaLocator(geoLocationApi) {
     };
 
     // Hier API Key eintragen
-    var apiKey = "YOUR_API_KEY_HERE";
+    var apiKey = "vloXuLH4uSQdQu9x3aSK1mxJ8DUqsemf";
 
     /**
      * Funktion erzeugt eine URL, die auf die Karte verweist.
@@ -120,9 +120,33 @@ var gtaLocator = (function GtaLocator(geoLocationApi) {
         readme: "Dieses Objekt enthält 'öffentliche' Teile des Moduls.",
 
         updateLocation: function() {
-            // TODO Hier Inhalt der Funktion "update" ergänzen
-        }
 
+            tryLocate(function (coordinates) {
+                // get actualized coordinates
+                const lat = getLatitude(coordinates)
+                const lon = getLongitude(coordinates)
+
+                //get actualized map url
+                const url = getLocationMapSrc(lat, lon, undefined, 15)
+
+                // set coordinates to Tagging-Form
+                document.getElementById('latitude').value = lat
+                document.getElementById('longitude').value = lon
+                // set coordinates to Discovery-Form
+                document.getElementById('filter-latitude').value = lat
+                document.getElementById('filter-longitude').value = lon
+
+                // console.log showing values of hidden Discovery fields
+                console.log(document.getElementById('filter-latitude').value)
+                console.log(document.getElementById('filter-longitude').value)
+
+                //set new url into Map area
+                document.getElementById('result-img').src = url
+
+            }, function (){
+                alert('Error: Coordinates are invalid.')
+            });
+        }
     }; // ... Ende öffentlicher Teil
 })(GEOLOCATIONAPI);
 
@@ -132,6 +156,6 @@ var gtaLocator = (function GtaLocator(geoLocationApi) {
  * des Skripts.
  */
 $(function() {
-    alert("Please change the script 'geotagging.js'");
-    // TODO Hier den Aufruf für updateLocation einfügen
+     // alert("Please change the script 'geotagging.js'");
+     gtaLocator.updateLocation()
 });
