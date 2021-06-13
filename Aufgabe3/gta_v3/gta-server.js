@@ -8,6 +8,8 @@
  * Definiere Modul Abhängigkeiten und erzeuge Express app.
  */
 
+    //nodemon gta-server.js -> aktualisiert ständig. :)
+
 var http = require('http');
 //var path = require('path');
 var logger = require('morgan');
@@ -28,15 +30,19 @@ app.set('view engine', 'ejs');
  * Konfiguriere den Pfad für statische Dateien.
  * Teste das Ergebnis im Browser unter 'http://localhost:3000/'.
  */
-
-// TODO: CODE ERGÄNZEN
+app.use(express.static('./public'));
 
 /**
  * Konstruktor für GeoTag Objekte.
  * GeoTag Objekte sollen min. alle Felder des 'tag-form' Formulars aufnehmen.
  */
 
-// TODO: CODE ERGÄNZEN
+function GeoTag(latitude, longitude, label, hashtag){
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.name = label;
+    this.hashtag = hashtag;
+}
 
 /**
  * Modul für 'In-Memory'-Speicherung von GeoTags mit folgenden Komponenten:
@@ -46,8 +52,50 @@ app.set('view engine', 'ejs');
  * - Funktion zum hinzufügen eines Geo Tags.
  * - Funktion zum Löschen eines Geo Tags.
  */
+const ModuleGT = (function(){
+    let geoArray = [];
+    let calculateRadius = function (lat, lat2, lon, lon2){
+        return Math.sqrt(Math.pow(lat - lat2, 2) + Math.pow(lon - lon2, 2));
+    }
 
-// TODO: CODE ERGÄNZEN
+    return {
+
+        searchRadius: function(latitude, longitude, radius){
+            let rad = [];
+            for(let i = 0; i < geoArray.length; i++){
+                let actualTag = geoArray[i];
+                if(calculateRadius(latitude, geoArray[i].latitude, longitude, geoArray[i].longitude) <= radius){
+                    rad.push(actualTag);
+                }
+            }
+            return rad;
+        },
+
+        searchLabel: function(label){
+            let tagLabel = [];
+            for(let i = 0; i < geoArray.length; i++){
+                if(geoArray[i].name === label){
+                    tagLabel.push(geoArray[i]);
+                }
+            }
+            return tagLabel;
+
+        },
+
+        addGeoTag: function(latitude, longitude, label, hashtag){
+            geoArray.push(new GeoTag(latitude, longitude, label, hashtag));
+        },
+
+        deleteGeoTag: function(name){
+            for(let i = 0; i < geoArray.length; i++){
+                if(geoArray[i].name === name){
+                    geoArray.splice(i,1);
+                    i--
+                }
+            }
+        },
+    }
+})();
 
 /**
  * Route mit Pfad '/' für HTTP 'GET' Requests.
@@ -77,7 +125,15 @@ app.get('/', function(req, res) {
  * Die Objekte liegen in einem Standard Radius um die Koordinate (lat, lon).
  */
 
-// TODO: CODE ERGÄNZEN START
+app.post('/tagging', function(req,res){
+    ModuleGT.addGeoTag(req.body.latitude, req.body.longitude, req.body.name, req.body.hashtag)
+    res.render('gta', {
+        taglist: ModuleGT.searchRadius(req.body.latitude, req.body.longitude, 1),
+        latitude: req.body.latitude,
+        longitude: req.body.longitude
+    });
+});
+
 
 /**
  * Route mit Pfad '/discovery' für HTTP 'POST' Requests.
@@ -91,7 +147,13 @@ app.get('/', function(req, res) {
  * Falls 'term' vorhanden ist, wird nach Suchwort gefiltert.
  */
 
-// TODO: CODE ERGÄNZEN
+app.post('/discovery', function(req,res){
+
+    res.render('gta', {
+        taglist: ModuleGT.searchLabel(req.body.search),
+    });
+});
+
 
 /**
  * Setze Port und speichere in Express.
